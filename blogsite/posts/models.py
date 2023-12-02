@@ -12,14 +12,14 @@ class Post(models.Model):
 
     TITLE_LENGTH: int = 90
 
-    title = models.CharField(max_length=TITLE_LENGTH)
-    slug = models.SlugField(max_length=TITLE_LENGTH)
-    text = models.TextField()
-    publish = models.DateTimeField(default=timezone.now())
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts")
+    title = models.CharField(max_length=TITLE_LENGTH, verbose_name="Заголовок")
+    slug = models.SlugField(max_length=TITLE_LENGTH, verbose_name="Слаг")
+    text = models.TextField(verbose_name="Содержание поста")
+    publish = models.DateTimeField(default=timezone.now, verbose_name="Дата публикации")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Время обновления")
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name="Статус")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts", verbose_name="Автор")
 
     class Meta:
         verbose_name = "Пост"

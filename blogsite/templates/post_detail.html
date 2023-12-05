@@ -2,10 +2,11 @@
 
 {% block title %} {{ post_title }} {% endblock title %}
 
-{% block body %}
+{% block main %}
 
     <h1>{{ post_title }}</h1>
+    <p>Автор: {{ post_author }}, {{ post_pubdate }}</p>
     <hr />
     <p>{{ post_description }}</p>
 
-{% endblock body %}
+{% endblock main %}

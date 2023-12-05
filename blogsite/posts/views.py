@@ -19,4 +19,5 @@ def post_detail_page(request, post_id: int) -> render:
     else:
         return render(request,
                       "post_detail.html",
-                      {"post_title": current_post.title, "post_description": current_post.text})
+                      {"post_title": current_post.title, "post_description": current_post.text,
+                       "post_pubdate": current_post.publish, "post_author": current_post.author})

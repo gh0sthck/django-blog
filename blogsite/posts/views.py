@@ -1,25 +1,22 @@
 from django.db.models import QuerySet
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render
 
 from .models import Post
 
 
-def home_page(request):
+def all_posts_page(request):
     all_posts: QuerySet[Post] = Post.objects.all()
 
-    txt = ""
-
-    for post in all_posts:
-        txt += "{} {} {}<br/>---------------<br/>{}<br/>".format(post.title, post.publish,
-                                                      post.author, post.text)
-    return render(request, )
-    # return HttpResponse("".join(
-    #     f"{post.title} {post.publish} {post.author}<br/>---------------<br/>{post.text}<br/>" for post in all_posts
-    # ))
+    return render(request, "index.html", {"title": "главная", "posts": all_posts})
 
 
-def test_page(request):
-    published_posts = Post.objects.filter(status=Post.Status.PUBLISHED)  # get already published posts
-
-    return HttpResponse("".join(f"{post.title}<br/>" for post in published_posts))
+def post_detail_page(request, post_id: int) -> render:
+    try:
+        current_post: Post = Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        raise Http404("Post not found.")
+    else:
+        return render(request,
+                      "post_detail.html",
+                      {"post_title": current_post.title, "post_description": current_post.text})

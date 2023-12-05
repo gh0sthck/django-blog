@@ -5,7 +5,7 @@
 {% block main %}
 
     <h1>{{ post_title }}</h1>
-    <p>Автор: {{ post_author }}, {{ post_pubdate }}</p>
+    <p>Автор: <a href="{% url 'user_page' user_id=post_author.id %}">{{ post_author }}</a>, {{ post_pubdate }}</p>
     <hr />
     <p>{{ post_description }}</p>
 

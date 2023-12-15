@@ -4,9 +4,10 @@
 
 {% block main %}
 
-{% for post in posts %}
+{% for post in postss %}
     <div>
-        <a href="{% url 'post_detail_page' post_id=post.id %}">{{ post.title }}</a>
+        <a style="font-size: 30px" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        <p>{{ post.text|linebreaks }}</p>
     </div>
 {% endfor %}
 

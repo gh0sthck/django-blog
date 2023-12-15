@@ -9,7 +9,7 @@ from .models import Post
 def all_posts_page(request):
     all_posts: QuerySet[Post] = Post.objects.all()
 
-    return render(request, "index.html", {"title": "главная", "posts": all_posts})
+    return render(request, "index.html", {"title": "главная", "postss": all_posts})
 
 
 def post_detail_page(request, post_id: int) -> render:

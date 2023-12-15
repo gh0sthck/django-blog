@@ -32,6 +32,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse(
-            "post_detail_page",
-            args=[self.id]
+            "post_detail_slug",
+            # args=[self.id]
+            args=[self.slug]
         )

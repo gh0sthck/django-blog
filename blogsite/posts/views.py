@@ -1,13 +1,27 @@
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import QuerySet
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
 
 from .models import Post
 
 
 def all_posts_page(request):
     all_posts: QuerySet[Post] = Post.objects.all()
+
+    # all_posts: QuerySet[Post] = Post.objects.get(status=Post.Status.PUBLISHED)
+
+    paginator = Paginator(all_posts, 3)
+    page_number = request.GET.get("page", 1)
+
+    try:
+        all_posts = paginator.page(page_number)
+    except PageNotAnInteger:
+        all_posts = paginator.page(1)
+    except EmptyPage:
+        all_posts = paginator.page(paginator.num_pages)
 
     return render(request, "index.html", {"title": "главная", "postss": all_posts})
 

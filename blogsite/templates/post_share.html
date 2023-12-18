@@ -4,6 +4,15 @@
 
 {% block main %}
 
-    {{ form }}
+    {% if sent %}
+        <h2>Письмо было успешно отправлено!</h2>
+        <p>Вы поделились постом "{{ post.title }}" с {{ form.cleaned_data.to }}!</p>
+    {% else %}
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit" value="Отправить">
+        </form>
+    {% endif %}
 
 {% endblock %}

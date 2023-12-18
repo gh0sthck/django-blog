@@ -41,14 +41,17 @@ def post_detail_slug(request, post) -> render:
 
 def post_share(requst, post_id: int) -> render:
     post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=post_id)
+    sent = False
     if requst.method == "POST":
         form = EmailPostForm(requst.POST)
         if form.is_valid():
             cd = form.cleaned_data
+            print(cd)
+            sent = True
     else:
         form = EmailPostForm()
 
-    return render(requst, "post_share.html", {"post": post, "form": form})
+    return render(requst, "post_share.html", {"post": post, "form": form, "sent": sent})
 
 
 def user_page(request, user_id: int) -> render:

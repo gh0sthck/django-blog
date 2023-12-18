@@ -1,9 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import QuerySet
-from django.http import HttpResponse, Http404
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView
 
 from .forms import EmailPostForm
 from .models import Post
@@ -11,8 +10,6 @@ from .models import Post
 
 def all_posts_page(request):
     all_posts: QuerySet[Post] = Post.objects.all()
-
-    # all_posts: QuerySet[Post] = Post.objects.get(status=Post.Status.PUBLISHED)
 
     paginator = Paginator(all_posts, 3)
     page_number = request.GET.get("page", 1)
@@ -33,28 +30,17 @@ def post_detail_page(request, post_id: int) -> render:
     except Post.DoesNotExist:
         raise Http404("Post not found.")
     else:
-        return render(request,
-                      "post_detail.html",
-                      {"post_title": current_post.title, "post_description": current_post.text,
-                       "post_pubdate": current_post.publish, "post_author": current_post.author})
+        return render(request, "post_detail.html", {"post": current_post})
 
 
 def post_detail_slug(request, post) -> render:
-    post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
+    post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
 
-    post_title = post.title
-    post_description = post.text
-    post_pubdate = post.publish
-    post_author = post.author
-
-    return render(request,
-                  "post_detail.html",
-                  {"post_title": post_title.title, "post_description": post_description,
-                   "post_pubdate": post_pubdate, "post_author": post_author, "post_id": post.id})
+    return render(request, "post_detail.html", {"post": post})
 
 
 def post_share(requst, post_id: int) -> render:
-    post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=post_id)
+    post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=post_id)
     if requst.method == "POST":
         form = EmailPostForm(requst.POST)
         if form.is_valid():
@@ -63,6 +49,7 @@ def post_share(requst, post_id: int) -> render:
         form = EmailPostForm()
 
     return render(requst, "post_share.html", {"post": post, "form": form})
+
 
 def user_page(request, user_id: int) -> render:
     try:

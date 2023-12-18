@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 
+from .forms import EmailPostForm
 from .models import Post
 
 
@@ -49,8 +50,19 @@ def post_detail_slug(request, post) -> render:
     return render(request,
                   "post_detail.html",
                   {"post_title": post_title.title, "post_description": post_description,
-                   "post_pubdate": post_pubdate, "post_author": post_author})
+                   "post_pubdate": post_pubdate, "post_author": post_author, "post_id": post.id})
 
+
+def post_share(requst, post_id: int) -> render:
+    post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=post_id)
+    if requst.method == "POST":
+        form = EmailPostForm(requst.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+    else:
+        form = EmailPostForm()
+
+    return render(requst, "post_share.html", {"post": post, "form": form})
 
 def user_page(request, user_id: int) -> render:
     try:

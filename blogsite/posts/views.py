@@ -4,7 +4,7 @@ from django.db.models import QuerySet
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 
-from .forms import EmailPostForm
+from .forms import EmailPostForm, CommentPostForm
 from .models import Post, Comments
 
 
@@ -35,17 +35,24 @@ def post_detail_page(request, post_id: int) -> render:
 
 def post_detail_slug(request, post) -> render:
     post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
-    comms: QuerySet[Comments] = Comments.objects.filter(post=post)
+    comms: QuerySet[Comments] = Comments.objects.filter(post=post, is_active=True)
+
+    if request.method == "POST":
+        form = CommentPostForm(request.POST)
+        if form.has_changed():
+            form.save()
+    else:
+        form = CommentPostForm()
 
     return render(request, "post_detail.html", {"post": post, "comments": comms,
-                                                "current_user": User})
+                                                "current_user": request.user, "form": form})
 
 
-def post_share(requst, post_id: int) -> render:
+def post_share(request, post_id: int) -> render:
     post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=post_id)
     sent = False
-    if requst.method == "POST":
-        form = EmailPostForm(requst.POST)
+    if request.method == "POST":
+        form = EmailPostForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             print(cd)
@@ -53,7 +60,7 @@ def post_share(requst, post_id: int) -> render:
     else:
         form = EmailPostForm()
 
-    return render(requst, "post_share.html", {"post": post, "form": form, "sent": sent})
+    return render(request, "post_share.html", {"post": post, "form": form, "sent": sent})
 
 
 def user_page(request, user_id: int) -> render:

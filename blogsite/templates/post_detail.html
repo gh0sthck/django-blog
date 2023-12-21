@@ -12,14 +12,18 @@
 
     <h2>Комментарии</h2><br>
 
-
+    {% if current_user.is_authenticated %}
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit">
+        </form>
+    {% endif %}
 
     <div class="comments">
         {% for comment in comments %}
-            {% if comment.is_active %}
                 <h4>{{ comment.author }}</h4> {{ comment.created }}
                 <p>{{ comment.text }}</p>
-            {% endif %}
         {% endfor %}
 
     </div>

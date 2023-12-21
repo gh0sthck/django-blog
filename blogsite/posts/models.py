@@ -36,3 +36,20 @@ class Post(models.Model):
             # args=[self.id]
             args=[self.slug]
         )
+
+
+class Comments(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(verbose_name="Комментарий")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комменатрии"
+        ordering = ["-created"]
+
+    def __str__(self) -> str:
+        return f"<Comment by {self.author.username} on {self.post}>"

@@ -5,7 +5,7 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 
 from .forms import EmailPostForm
-from .models import Post
+from .models import Post, Comments
 
 
 def all_posts_page(request):
@@ -35,8 +35,10 @@ def post_detail_page(request, post_id: int) -> render:
 
 def post_detail_slug(request, post) -> render:
     post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
+    comms: QuerySet[Comments] = Comments.objects.filter(post=post)
 
-    return render(request, "post_detail.html", {"post": post})
+    return render(request, "post_detail.html", {"post": post, "comments": comms,
+                                                "current_user": User})
 
 
 def post_share(requst, post_id: int) -> render:

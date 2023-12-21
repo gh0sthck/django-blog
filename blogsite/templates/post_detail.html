@@ -10,4 +10,18 @@
     <p>{{ post.text }}</p>
     <a href="{% url 'post_share' post_id=post.id %}">Поделиться</a>
 
+    <h2>Комментарии</h2><br>
+
+
+
+    <div class="comments">
+        {% for comment in comments %}
+            {% if comment.is_active %}
+                <h4>{{ comment.author }}</h4> {{ comment.created }}
+                <p>{{ comment.text }}</p>
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
 {% endblock main %}

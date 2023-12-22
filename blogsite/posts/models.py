@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from taggit.managers import TaggableManager
 
 
 class Post(models.Model):
@@ -21,6 +22,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name="Время обновления")
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name="Статус")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts", verbose_name="Автор")
+    tags = TaggableManager()
 
     class Meta:
         verbose_name = "Пост"

@@ -1,0 +1,23 @@
+body {
+    background-color: #1c1f26;
+    color: #fae4e4;
+}
+
+.post {
+    background-color: #292d34;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 30px;
+}
+
+span.tag {
+    color: #0c58ea;
+    background-color: #789ede;
+    padding: 4px 15px 4px 15px;
+    border-radius: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #a3c8ea;
+}

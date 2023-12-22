@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
+from django.core.checks import Tags
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import QuerySet
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
+from taggit.models import Tag
 
 from .forms import EmailPostForm, CommentPostForm
 from .models import Post, Comments
@@ -21,7 +23,7 @@ def all_posts_page(request):
     except EmptyPage:
         all_posts = paginator.page(paginator.num_pages)
 
-    return render(request, "index.html", {"title": "главная", "postss": all_posts})
+    return render(request, "index.html", {"title": "главная", "postss": all_posts })
 
 
 def post_detail_page(request, post_id: int) -> render:
@@ -35,7 +37,8 @@ def post_detail_page(request, post_id: int) -> render:
 
 def post_detail_slug(request, post) -> render:
     post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
-    comms: QuerySet[Comments] = Comments.objects.filter(post=post, is_active=True)
+    comments: QuerySet[Comments] = Comments.objects.filter(post=post, is_active=True)
+    tags: QuerySet[Tag] = post.tags.all()
 
     if request.method == "POST":
         form = CommentPostForm(request.POST)
@@ -44,8 +47,9 @@ def post_detail_slug(request, post) -> render:
     else:
         form = CommentPostForm()
 
-    return render(request, "post_detail.html", {"post": post, "comments": comms,
-                                                "current_user": request.user, "form": form})
+    return render(request, "post_detail.html", {"post": post, "comments": comments,
+                                                "current_user": request.user, "form": form,
+                                                "tags": tags})
 
 
 def post_share(request, post_id: int) -> render:
@@ -72,3 +76,10 @@ def user_page(request, user_id: int) -> render:
         return render(request,
                       "user_page.html",
                       {"username": current_user.username})
+
+
+def posts_with_current_tag(request, tag) -> render:
+    tag = Tag.objects.get(name=tag)
+    post = Post.objects.filter(tags__in=[tag])
+
+    return render(request, "tags_page.html", {"posts": post})

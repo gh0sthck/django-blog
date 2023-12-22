@@ -7,6 +7,13 @@
     <h1>{{ post.title }}</h1>
     <p>Автор: <a href="{% url 'user_page' user_id=post.author.id %}">{{ post.author }}</a>, {{ post.publish }}</p>
     <hr />
+    {% if tags %}
+        {% for tag in tags %}
+            <a href="tag/{{ tag.slug }}" class="tag_a">
+                <span class="tag">#{{ tag }}</span>
+            </a>
+        {% endfor %}
+    {% endif %} 
     <p>{{ post.text }}</p>
     <a href="{% url 'post_share' post_id=post.id %}">Поделиться</a>
 

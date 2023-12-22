@@ -5,9 +5,22 @@
 {% block main %}
 
 {% for post in postss %}
-    <div>
-        <a style="font-size: 30px" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-        <p>{{ post.text|linebreaks }}</p>
+    <div class="post">
+        <a style="font-size: 30px" href="{{ post.get_absolute_url }}">
+            {{ post.title }}
+        </a>
+    <p>{{ post.text|linebreaks }}</p>
+
+    {% with post.tags.all as tags %}
+        {% if tags %}
+            {% for tag in tags %}
+                <a href="tag/{{ tag.slug }}" class="tag_a">
+                    <span class="tag">#{{ tag }}</span>
+                </a>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     </div>
 {% endfor %}
 

@@ -4,26 +4,26 @@
 
 {% block main %}
 
-{% for post in postss %}
-    <div class="post">
-        <a style="font-size: 30px" href="{{ post.get_absolute_url }}">
-            {{ post.title }}
-        </a>
-    <p>{{ post.text|linebreaks|truncatewords:40 }}</p>
+    {% for post in postss %}
+        <div class="post">
+            <a style="font-size: 30px" href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
+        <p>{{ post.text|linebreaks|truncatewords:40 }}</p>
 
-    {% with post.tags.all as tags %}
-        {% if tags %}
-            {% for tag in tags %}
-                <a href="tag/{{ tag.slug }}" class="tag_a">
-                    <span class="tag">#{{ tag }}</span>
-                </a>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+        {% with post.tags.all as tags %}
+            {% if tags %}
+                {% for tag in tags %}
+                    <a href="tag/{{ tag.slug }}" class="tag_a">
+                        <span class="tag">#{{ tag }}</span>
+                    </a>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-    </div>
-{% endfor %}
+        </div>
+    {% endfor %}
 
-{% include "pagination.html" with page=postss %}
+    {% include "pagination.html" with page=postss %}
 
 {% endblock main %}

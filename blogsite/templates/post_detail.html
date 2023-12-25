@@ -27,6 +27,14 @@
         </form>
     {% endif %}
 
+    <h2>Похожие</h2>
+    {% if similar_posts %}
+        {% for similar_post in similar_posts %}
+            <div><a href="{{ similar_post.get_absolute_url }}">{{ similar_post }}</a></div>
+        {% endfor %}
+        
+    {% endif %}
+
     <div class="comments">
         {% for comment in comments %}
                 <h4>{{ comment.author }}</h4> {{ comment.created }}

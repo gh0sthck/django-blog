@@ -39,6 +39,7 @@ def post_detail_slug(request, post) -> render:
     post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
     comments: QuerySet[Comments] = Comments.objects.filter(post=post, is_active=True)
     tags: QuerySet[Tag] = post.tags.all()
+    similar_posts: QuerySet[Tag] = post.tags.similar_objects()
 
     if request.method == "POST":
         form = CommentPostForm(request.POST)
@@ -49,7 +50,7 @@ def post_detail_slug(request, post) -> render:
 
     return render(request, "post_detail.html", {"post": post, "comments": comments,
                                                 "current_user": request.user, "form": form,
-                                                "tags": tags})
+                                                "tags": tags, "similar_posts": similar_posts})
 
 
 def post_share(request, post_id: int) -> render:

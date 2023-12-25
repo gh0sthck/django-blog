@@ -9,7 +9,7 @@
         <a style="font-size: 30px" href="{{ post.get_absolute_url }}">
             {{ post.title }}
         </a>
-    <p>{{ post.text|linebreaks }}</p>
+    <p>{{ post.text|linebreaks|truncatewords:40 }}</p>
 
     {% with post.tags.all as tags %}
         {% if tags %}

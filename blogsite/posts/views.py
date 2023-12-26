@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
-from django.core.checks import Tags
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import QuerySet
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from taggit.models import Tag
 
@@ -26,19 +25,11 @@ def all_posts_page(request):
     return render(request, "index.html", {"title": "главная", "postss": all_posts })
 
 
-def post_detail_page(request, post_id: int) -> render:
-    try:
-        current_post: Post = Post.objects.get(id=post_id)
-    except Post.DoesNotExist:
-        raise Http404("Post not found.")
-    else:
-        return render(request, "post_detail.html", {"post": current_post})
-
-
-def post_detail_slug(request, post) -> render:
-    post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post)
+def post_detail_slug(request, post_slug) -> render:
+    post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, slug=post_slug)
     comments: QuerySet[Comments] = Comments.objects.filter(post=post, is_active=True)
     tags: QuerySet[Tag] = post.tags.all()
+    similar_posts: QuerySet[Tag] = post.tags.similar_objects()
 
     if request.method == "POST":
         form = CommentPostForm(request.POST)
@@ -49,7 +40,7 @@ def post_detail_slug(request, post) -> render:
 
     return render(request, "post_detail.html", {"post": post, "comments": comments,
                                                 "current_user": request.user, "form": form,
-                                                "tags": tags})
+                                                "tags": tags, "similar_posts": similar_posts})
 
 
 def post_share(request, post_id: int) -> render:

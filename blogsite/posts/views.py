@@ -1,7 +1,6 @@
 from typing import List
 
 from django.contrib.auth.models import User
-from django.core.checks import Tags
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import QuerySet
 from django.http import Http404, HttpResponse
@@ -13,8 +12,6 @@ from .models import Post, Comments
 
 
 def all_posts_page(request):
-    is_search: bool = False
-
     if request.method == "POST":
         form = SearchForm(request.POST)
         if form.is_valid():

@@ -1,16 +1,34 @@
+from typing import List
+
 from django.contrib.auth.models import User
+from django.core.checks import Tags
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import QuerySet
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from taggit.models import Tag
 
-from .forms import EmailPostForm, CommentPostForm
+from .forms import EmailPostForm, CommentPostForm, SearchForm
 from .models import Post, Comments
 
 
 def all_posts_page(request):
-    all_posts: QuerySet[Post] = Post.objects.all()
+    is_search: bool = False
+
+    if request.method == "POST":
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            all_posts_title: QuerySet[Post] = Post.objects.filter(title__search=data["search_query"])
+            all_posts_tags: QuerySet[Post] = Post.objects.filter(tags__name__search=data["search_query"])
+            all_posts_text: QuerySet[Post] = Post.objects.filter(text__search=data["search_query"])
+            tags: QuerySet[Tag] = Post.tags.filter(name__search=data["search_query"])
+
+            all_posts: QuerySet[Post] = all_posts_title.union(all_posts_text, all_posts_tags)
+    else:
+        form = SearchForm()
+        all_posts: QuerySet[Post] = Post.objects.all()
+        tags: List = []
 
     paginator = Paginator(all_posts, 3)
     page_number = request.GET.get("page", 1)
@@ -22,7 +40,8 @@ def all_posts_page(request):
     except EmptyPage:
         all_posts = paginator.page(paginator.num_pages)
 
-    return render(request, "index.html", {"title": "главная", "postss": all_posts })
+    return render(request, "index.html", {"title": "главная", "postss": all_posts, "form": form,
+                                          "tags": tags})
 
 
 def post_detail_slug(request, post_slug) -> render:

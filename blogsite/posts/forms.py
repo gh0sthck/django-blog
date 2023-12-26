@@ -14,3 +14,7 @@ class CommentPostForm(forms.ModelForm):
     class Meta:
         model = Comments
         fields = ["post", "author", "text"]
+
+
+class SearchForm(forms.Form):
+    search_query = forms.CharField(max_length=120)

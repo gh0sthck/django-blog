@@ -5,7 +5,7 @@
 {% block main %}
 
     <h1>{{ post.title }}</h1>
-    <p>Автор: <a href="{% url 'posts:user_page' user_id=post.author.id %}">{{ post.author }}</a>, {{ post.publish }}</p>
+    <p>Автор: <a href="{% url 'user_page' user_id=post.author.id %}">{{ post.author }}</a>, {{ post.publish }}</p>
     <hr />
     {% if tags %}
         {% for tag in tags %}
@@ -15,7 +15,7 @@
         {% endfor %}
     {% endif %} 
     <p>{{ post.text }}</p>
-    <a href="{% url 'posts:post_share' post_id=post.id %}">Поделиться</a>
+    <a href="{% url 'post_share' post_id=post.id %}">Поделиться</a>
 
     <h2>Комментарии</h2><br>
 

@@ -2,8 +2,6 @@ from django.urls import path
 
 from .views import all_posts_page, user_page, post_detail_slug, post_share, posts_with_current_tag
 
-app_name = "posts"
-
 urlpatterns: list = [
     path("", all_posts_page, name="all_posts_page"),
     path("<slug:post_slug>/", post_detail_slug, name="post_detail_slug"),

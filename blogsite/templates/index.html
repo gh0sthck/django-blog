@@ -4,12 +4,13 @@
 
 {% block main %}
 
-    <h3>Поиск</h3>
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <input type="submit" value="Поиск">
-    </form>
+    <div class="search">
+        <form method="post">
+            <input type="submit" class="search_input" value="Поиск">
+            {{ form }}
+            {% csrf_token %}
+        </form>
+    </div>
 
     {% if postss %}
         {% for post in postss %}

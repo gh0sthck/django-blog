@@ -9,6 +9,17 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 <body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <ul>
+                    <li><a href="{% url 'all_posts_page' %}">Главная</a></li>
+                    <li><a href="">Вход</a></li>
+                </ul>
+        </nav>
+        </div>
+    </header>
+
     {% block body %}
         {% block container %}
             <div class="container">

@@ -17,4 +17,4 @@ class CommentPostForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    search_query = forms.CharField(max_length=120)
+    search_query = forms.CharField(max_length=120, label="")

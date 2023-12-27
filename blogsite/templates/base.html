@@ -14,7 +14,15 @@
             <nav class="nav">
                 <ul>
                     <li><a href="{% url 'all_posts_page' %}">Главная</a></li>
-                    <li><a href="">Вход</a></li>
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'user_page' user.id %}">{{ user.username }}</a>
+                            <a href="{% url 'logout_page' %}">Выход</a>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'login_page' %}">Вход</a></li>
+                    {% endif %}
+
                 </ul>
         </nav>
         </div>

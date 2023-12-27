@@ -74,17 +74,6 @@ def post_share(request, post_id: int) -> render:
     return render(request, "post_share.html", {"post": post, "form": form, "sent": sent})
 
 
-def user_page(request, user_id: int) -> render:
-    try:
-        current_user: User = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        raise Http404("User not found.")
-    else:
-        return render(request,
-                      "user_page.html",
-                      {"username": current_user.username})
-
-
 def posts_with_current_tag(request, tag) -> render:
     tag = Tag.objects.get(name=tag)
     post = Post.objects.filter(tags__in=[tag])

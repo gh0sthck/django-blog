@@ -69,6 +69,7 @@ def post_create(request) -> render:
             author_id = form.save(commit=False)
             author_id.author_id = request.user.id
             author_id.save()
+            form.save_m2m()
     else:
         form = CreatePostForm()
 

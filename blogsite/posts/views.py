@@ -1,12 +1,9 @@
 from typing import List
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import QuerySet
-from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.utils.text import slugify
 from taggit.models import Tag
 
 from .forms import EmailPostForm, CommentPostForm, SearchForm, CreatePostForm
@@ -52,7 +49,10 @@ def post_detail_slug(request, post_slug) -> render:
     if request.method == "POST":
         form = CommentPostForm(request.POST)
         if form.has_changed():
-            form.save()
+            aid = form.save(commit=False)
+            aid.author_id = request.user.id
+            aid.post = Post.objects.get(slug=post_slug)
+            aid.save()
     else:
         form = CommentPostForm()
 

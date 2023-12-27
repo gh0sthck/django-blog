@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from pytils.translit import slugify
 from django.urls import reverse
 from django.utils import timezone
 from taggit.managers import TaggableManager
@@ -28,6 +29,12 @@ class Post(models.Model):
         verbose_name = "Пост"
         verbose_name_plural = "Посты"
         ordering = ["-publish"]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+            print("slug", self.slug)
+        super(Post, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.title

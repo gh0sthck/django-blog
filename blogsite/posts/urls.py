@@ -1,10 +1,13 @@
+from typing import List
+
 from django.urls import path
 
-from .views import all_posts_page, post_detail_slug, post_share, posts_with_current_tag
+from .views import all_posts_page, post_detail_slug, post_share, posts_with_current_tag, post_create
 
-urlpatterns: list = [
+urlpatterns: List = [
     path("", all_posts_page, name="all_posts_page"),
     path("<slug:post_slug>", post_detail_slug, name="post_detail_slug"),
     path("share/<int:post_id>", post_share, name="post_share"),
-    path("tag/<slug:tag>", posts_with_current_tag, name="post_with_tag")
+    path("tag/<slug:tag>", posts_with_current_tag, name="post_with_tag"),
+    path("create_post/", post_create, name="create_post"),
 ]

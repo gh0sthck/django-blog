@@ -1,13 +1,15 @@
 from typing import List
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import QuerySet
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.utils.text import slugify
 from taggit.models import Tag
 
-from .forms import EmailPostForm, CommentPostForm, SearchForm
+from .forms import EmailPostForm, CommentPostForm, SearchForm, CreatePostForm
 from .models import Post, Comments
 
 
@@ -57,6 +59,20 @@ def post_detail_slug(request, post_slug) -> render:
     return render(request, "post_detail.html", {"post": post, "comments": comments,
                                                 "current_user": request.user, "form": form,
                                                 "tags": tags, "similar_posts": similar_posts})
+
+
+@login_required
+def post_create(request) -> render:
+    if request.method == "POST":
+        form = CreatePostForm(request.POST)
+        if form.has_changed():
+            author_id = form.save(commit=False)
+            author_id.author_id = request.user.id
+            author_id.save()
+    else:
+        form = CreatePostForm()
+
+    return render(request, "post_create.html", {"form": form})
 
 
 def post_share(request, post_id: int) -> render:

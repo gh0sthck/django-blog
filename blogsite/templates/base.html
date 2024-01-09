@@ -29,9 +29,19 @@
         </div>
     </header>
 
+
+    
     {% block body %}
         {% block container %}
             <div class="container">
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li class="message">{{ message|safe }} <a href="#" class="close">X</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
                 {% block main %}
                 {% endblock %}
             </div>

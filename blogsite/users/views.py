@@ -66,6 +66,12 @@ def user_page(request, user_id: int) -> render:
     except User.DoesNotExist:
         raise Http404("User not found.")
     else:
+        try:
+            photo_url = current_profile.photo.url
+        except ValueError:
+            photo_url = ""
+
         return render(request,
                       "user_page.html",
-                      {"current_user": current_user, "current_profile": current_profile})
+                      {"current_user": current_user, "current_profile": current_profile, "photo_url": photo_url,
+                       "user": request.user})

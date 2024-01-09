@@ -3,7 +3,7 @@ from typing import List
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from .views import user_page
+from .views import user_page, registration
 
 urlpatterns: List = [
     # path("login/", login_page, name="login_page"),
@@ -14,6 +14,8 @@ urlpatterns: List = [
     path("logout/", auth_views.LogoutView.as_view(
         template_name="user_logout.html",
     ), name="logout_page"),
+
+    path("register/", registration, name="register"),
 
     path("<int:user_id>/", user_page, name="user_page"),
 ]

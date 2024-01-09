@@ -83,7 +83,6 @@ def post_share(request, post_id: int) -> render:
         form = EmailPostForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            print(cd)
             sent = True
     else:
         form = EmailPostForm()

@@ -1,9 +1,10 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
-from .forms import LoginForm
+from .forms import LoginForm, RegistrationForm
 
 
 def login_page_for_test(request):
@@ -22,6 +23,23 @@ def login_page_for_test(request):
         form = LoginForm()
 
     return render(request, "user_login.html", {"form": form})
+
+
+def registration(request) -> render:
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            form = RegistrationForm(request.POST)
+            if form.is_valid():
+                new_user = form.save(commit=False)
+                new_user.set_password(form.cleaned_data["password"])
+                new_user.save()
+                return render(request, "user_registration_done.html", {"new_user": new_user})
+        else:
+            form = RegistrationForm()
+
+        return render(request, "user_registration.html", {"form": form})
+    else:
+        return redirect("user_page", user_id=request.user.id)
 
 
 def user_page(request, user_id: int) -> render:

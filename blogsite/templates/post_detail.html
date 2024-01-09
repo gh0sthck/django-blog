@@ -39,7 +39,7 @@
 
     <div class="comments">
         {% for comment in comments %}
-                <h4>{{ comment.author }}</h4> {{ comment.created }}
+                <h4><a href="{% url 'user_page' user_id=comment.author.id %}">{{ comment.author }}</a></h4> {{ comment.created }}
                 <p>{{ comment.text }}</p>
         {% endfor %}
 

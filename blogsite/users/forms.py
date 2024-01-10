@@ -35,3 +35,7 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["date_of_birth", "photo"]
+
+
+class UserSearchForm(forms.Form):
+    search_field = forms.CharField(max_length=120, label="", required=False)

@@ -2,10 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import QuerySet
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import LoginForm, RegistrationForm, UserEditForm, ProfileEditForm
+from .forms import LoginForm, RegistrationForm, UserEditForm, ProfileEditForm, UserSearchForm
 from .models import Profile
 
 
@@ -82,3 +83,19 @@ def user_page(request, user_id: int) -> render:
                       "user_page.html",
                       {"current_user": current_user, "current_profile": current_profile, "photo_url": photo_url,
                        "user": request.user, "user_posts": user_posts})
+
+
+def all_users(request) -> render:
+    all_usr: QuerySet[User] = User.objects.all()
+
+    if request.method == "POST":
+        form = UserSearchForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            print(data)
+            current_user: QuerySet[User] = User.objects.filter(username__contains=data["search_field"])
+            all_usr = current_user
+    else:
+        form = UserSearchForm()
+
+    return render(request, "all_users.html", {"all_users": all_usr, "form": form})

@@ -15,6 +15,17 @@
                 <a href="{% url 'edit' %}">Редактировать профиль</a>
             {% endif %}
         </div>
+
+
+    </div>
+
+    <h2>Посты {{ current_user.username }}</h2>
+    <div class="user_posts">
+        <ul class="posts">
+            {% for post in user_posts %}
+                <li><a href="{% url 'post_detail_slug' post.slug %}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
     </div>
 
 {% endblock main %}

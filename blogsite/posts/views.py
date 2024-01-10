@@ -3,7 +3,7 @@ from typing import List
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import QuerySet
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from taggit.models import Tag
 
 from .forms import EmailPostForm, CommentPostForm, SearchForm, CreatePostForm
@@ -70,6 +70,7 @@ def post_create(request) -> render:
             author_id.author_id = request.user.id
             author_id.save()
             form.save_m2m()
+            return redirect("all_posts_page")
     else:
         form = CreatePostForm()
 

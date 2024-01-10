@@ -66,16 +66,19 @@ def edit(request):
 def user_page(request, user_id: int) -> render:
     try:
         current_user: User = User.objects.get(id=user_id)
-        current_profile: Profile = Profile.objects.get(user=current_user)
     except User.DoesNotExist:
         raise Http404("User not found.")
     else:
+        current_profile: Profile = Profile.objects.get(user=current_user)
+
         try:
             photo_url = current_profile.photo.url
         except ValueError:
             photo_url = ""
 
+        user_posts = current_user.blog_posts.all()
+
         return render(request,
                       "user_page.html",
                       {"current_user": current_user, "current_profile": current_profile, "photo_url": photo_url,
-                       "user": request.user})
+                       "user": request.user, "user_posts": user_posts})

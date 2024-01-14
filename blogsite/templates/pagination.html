@@ -1,11 +1,17 @@
-<div class="pagination">
+<div style="display: flex;
+            align-items: center;
+            justify-content: center" class="pagination">
+
     {% if page.has_previous %}
-        <a href="?page={{ page.previous_page_number }}">Предыдущая</a>
+        <a style="font-size: 20px; margin-right: 10px;" href="?page={{ page.previous_page_number }}"> < </a>
     {% endif %}
+
     <span class="current">
         Страница {{ page.number }} из {{ page.paginator.num_pages }}
     </span>
+
     {% if page.has_next %}
-        <a href="?page={{ page.next_page_number }}">Следущая</a>
+        <a style="font-size: 20px; margin-left: 10px;" href="?page={{ page.next_page_number }}"> > </a>
     {% endif %}
+
 </div>

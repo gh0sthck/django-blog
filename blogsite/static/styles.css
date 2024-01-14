@@ -43,18 +43,12 @@ body > .container {
     border-radius: 30px;
 }
 
-
-
 .message {
     width: 100%;
     background-color: #79787e;
     padding: 10px 30px 10px 30px;
     display: flex;
     justify-content: space-between;
-}
-
-.message {
-
 }
 
 span.tag {
@@ -71,11 +65,12 @@ a {
 
 .search > form {
     display: flex;
-    justify-content: right;
+    justify-content: center;
+    /*border: 1px solid red;*/
 }
 
 .search_input {
-    padding: 0 40px 0 40px;
+    padding: 0 20px 0 20px;
     border: none;
     outline: none;
     margin-right: 20px;
@@ -84,12 +79,16 @@ a {
 
 #id_search_query {
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 15px;
     width: 50%;
     background-color: #383b44;
 }
 #id_search_query:focus {
     outline: none;
+    color: #fff;
+}
+
+#id_search_query[placeholder] {
     color: #fff;
 }

@@ -4,6 +4,7 @@
 
 {% block main %}
 
+    <!-- SEARCH -->
     <div class="search">
         <form method="post">
             <input type="submit" class="search_input" value="Поиск">
@@ -12,8 +13,10 @@
         </form>
     </div>
 
+    <!-- POSTS BLOCK -->
     {% if postss %}
         {% for post in postss %}
+
             <div class="post">
                 <a style="font-size: 30px" href="{{ post.get_absolute_url }}">
                     {{ post.title }}
@@ -22,6 +25,7 @@
 
             {% with post.tags.all as tags %}
                 {% if tags %}
+                    <!-- POST TAGS -->
                     {% for tag in tags %}
                         <a href="tag/{{ tag.slug }}" class="tag_a">
                             <span class="tag">#{{ tag }}</span>
@@ -32,8 +36,12 @@
 
             </div>
         {% endfor %}
+
+    {% else %}
+        <h1 style="padding-top: 30px;">Тут, пока, ничего нет . . .</h1>
     {% endif %}
 
+    <!-- TAGS (SEARCH) -->
     {% if tags %}
         <h2>Теги</h2>
         {% for tag in tags %}
@@ -44,7 +52,12 @@
     {% endif %}
     
 
+    <!-- PAGINATION -->
+    {% with postss as page %}
+        {% if postss|length >= 3 or page.number != 1 %}
+            {% include "pagination.html" with page=postss %}
+        {% endif %}
+    {% endwith %}
 
-    {% include "pagination.html" with page=postss %}
 
 {% endblock main %}

@@ -6,7 +6,7 @@
 
     <!-- SEARCH -->
     <div class="search">
-        <form method="post">
+        <form method="get">
             <input type="submit" class="search_input" value="Поиск">
             {{ form }}
             {% csrf_token %}
@@ -55,7 +55,7 @@
     <!-- PAGINATION -->
     {% with postss as page %}
         {% if postss|length >= 3 or page.number != 1 %}
-            {% include "pagination.html" with page=postss %}
+            {% include "pagination.html" with page=postss search=search_query %}
         {% endif %}
     {% endwith %}
 

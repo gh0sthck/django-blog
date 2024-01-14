@@ -18,7 +18,7 @@ class CommentPostForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search_query = forms.CharField(max_length=120, label="",
-                                   widget=forms.TextInput(attrs={"placeholder": "Поиск . . ."}))
+                                   widget=forms.TextInput(attrs={"placeholder": "Поиск . . ."}),)
 
 
 class CreatePostForm(forms.ModelForm):

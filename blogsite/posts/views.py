@@ -11,20 +11,21 @@ from .models import Post, Comments
 
 
 def all_posts_page(request):
-    if request.method == "POST":
-        form = SearchForm(request.POST)
+    form = SearchForm()
+    all_posts: QuerySet[Post] = Post.objects.all()
+    tags: List = []
+    search_query = None
+
+    if "search_query" in request.GET:
+        form = SearchForm(request.GET)
         if form.is_valid():
-            data = form.cleaned_data
-            all_posts_title: QuerySet[Post] = Post.objects.filter(title__contains=data["search_query"])
-            all_posts_tags: QuerySet[Post] = Post.objects.filter(tags__name__search=data["search_query"])
-            all_posts_text: QuerySet[Post] = Post.objects.filter(text__search=data["search_query"])
-            tags: QuerySet[Tag] = Post.tags.filter(name__search=data["search_query"])
+            search_query = form.cleaned_data["search_query"]
+            all_posts_title: QuerySet[Post] = Post.objects.filter(title__contains=search_query)
+            all_posts_tags: QuerySet[Post] = Post.objects.filter(tags__name__search=search_query)
+            all_posts_text: QuerySet[Post] = Post.objects.filter(text__search=search_query)
+            tags: QuerySet[Tag] = Post.tags.filter(name__search=search_query)
 
             all_posts: QuerySet[Post] = all_posts_title.union(all_posts_text, all_posts_tags)
-    else:
-        form = SearchForm()
-        all_posts: QuerySet[Post] = Post.objects.all()
-        tags: List = []
 
     paginator = Paginator(all_posts, 3)
     page_number = request.GET.get("page", 1)
@@ -37,7 +38,7 @@ def all_posts_page(request):
         all_posts = paginator.page(paginator.num_pages)
 
     return render(request, "index.html", {"title": "главная", "postss": all_posts, "form": form,
-                                          "tags": tags})
+                                          "tags": tags, "search_query": search_query})
 
 
 def post_detail_slug(request, post_slug) -> render:

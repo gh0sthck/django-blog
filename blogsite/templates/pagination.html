@@ -3,7 +3,7 @@
             justify-content: center" class="pagination">
 
     {% if page.has_previous %}
-        <a style="font-size: 20px; margin-right: 10px;" href="?page={{ page.previous_page_number }}">
+        <a style="font-size: 20px; margin-right: 10px;" href="?page={{ page.previous_page_number }}{% if search %}&search_query={{ search }}{% endif %}">
             <span class="dot"> < </span>
         </a>
     {% endif %}
@@ -13,7 +13,7 @@
     </span>
 
     {% if page.has_next %}
-        <a style="font-size: 20px; margin-left: 10px;" href="?page={{ page.next_page_number }}">
+        <a style="font-size: 20px; margin-left: 10px;" href="?page={{ page.next_page_number }}{% if search %}&search_query={{ search }}{% endif %}">
             <span class="dot">
                 >
             </span>

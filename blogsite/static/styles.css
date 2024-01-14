@@ -3,6 +3,8 @@
     text-decoration: none;
     border: none;
     outline: none;
+    margin: 0;
+    padding: 0;
 }
 body {
     background-color: #1c1f26;
@@ -43,6 +45,28 @@ body > .container {
     border-radius: 30px;
 }
 
+.dot {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    background-color: #292d34;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot:hover {
+    background-color: #789ede;
+    color: #fff;
+    transition: .2s;
+}
+
+.current {
+    background-color: #292d34;
+    padding: 10px 25px 10px 20px;
+    border-radius: 20px;
+}
+
 .message {
     width: 100%;
     background-color: #79787e;
@@ -66,7 +90,6 @@ a {
 .search > form {
     display: flex;
     justify-content: center;
-    /*border: 1px solid red;*/
 }
 
 .search_input {

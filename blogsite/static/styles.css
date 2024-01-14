@@ -97,7 +97,15 @@ a {
     border: none;
     outline: none;
     margin-right: 20px;
-    border-radius: 5px;
+    border-radius: 15px;
+    background-color: #292d34;
+    color: #a3c8ea;
+}
+
+.search_input:hover {
+    background-color: #789ede;
+    color: #fff;
+    transition: .2s;
 }
 
 #id_search_query {

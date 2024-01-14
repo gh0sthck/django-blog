@@ -15,7 +15,7 @@ def all_posts_page(request):
         form = SearchForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            all_posts_title: QuerySet[Post] = Post.objects.filter(title__search=data["search_query"])
+            all_posts_title: QuerySet[Post] = Post.objects.filter(title__contains=data["search_query"])
             all_posts_tags: QuerySet[Post] = Post.objects.filter(tags__name__search=data["search_query"])
             all_posts_text: QuerySet[Post] = Post.objects.filter(text__search=data["search_query"])
             tags: QuerySet[Tag] = Post.tags.filter(name__search=data["search_query"])

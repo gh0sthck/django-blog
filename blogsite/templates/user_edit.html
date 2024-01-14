@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block main %}
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" class="form">
         {{ user_form.as_p }}
         {{ profile_form.as_p }}
         {% csrf_token %}
-        <input type="submit" value="Сохранить">
+        <input type="submit" class="button" value="Сохранить">
     </form>
 {% endblock %}

@@ -23,7 +23,7 @@ def all_posts_page(request):
             all_posts_title: QuerySet[Post] = Post.objects.filter(title__contains=search_query)
             all_posts_tags: QuerySet[Post] = Post.objects.filter(tags__name__search=search_query)
             all_posts_text: QuerySet[Post] = Post.objects.filter(text__search=search_query)
-            tags: QuerySet[Tag] = Post.tags.filter(name__search=search_query)
+            tags: QuerySet[Tag] = Post.tags.filter(name__contains=search_query)
 
             all_posts: QuerySet[Post] = all_posts_title.union(all_posts_text, all_posts_tags)
 
@@ -54,6 +54,7 @@ def post_detail_slug(request, post_slug) -> render:
             aid.author_id = request.user.id
             aid.post = Post.objects.get(slug=post_slug)
             aid.save()
+            return redirect("post_detail_slug", post_slug)
     else:
         form = CommentPostForm()
 
@@ -78,22 +79,8 @@ def post_create(request) -> render:
     return render(request, "post_create.html", {"form": form})
 
 
-def post_share(request, post_id: int) -> render:
-    post: Post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=post_id)
-    sent = False
-    if request.method == "POST":
-        form = EmailPostForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            sent = True
-    else:
-        form = EmailPostForm()
-
-    return render(request, "post_share.html", {"post": post, "form": form, "sent": sent})
-
-
 def posts_with_current_tag(request, tag) -> render:
     tag = Tag.objects.get(name=tag)
     post = Post.objects.filter(tags__in=[tag])
 
-    return render(request, "tags_page.html", {"posts": post})
+    return render(request, "tags_page.html", {"posts": post, "tag": tag})

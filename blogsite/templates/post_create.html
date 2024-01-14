@@ -6,10 +6,12 @@
 
 {% block main %}
     <h1>Напишите пост!</h1>
+    <hr />
 
-    <form method="post" class="create_post">
+    <form method="post" class="form">
         {{ form.as_p }}
         {% csrf_token %}
-        <input type="submit" value="Создать">
+        <input type="submit" class="button" value="Создать">
     </form>
-{% endblock %}
+
+{% endblock main %}

@@ -6,11 +6,13 @@
 
 {% block main %}
 
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <input type="submit" value="Поиск">
-    </form>
+    <div class="search">
+        <form method="post" class="form">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit" class="button" value="Поиск">
+        </form>
+    </div>
 
     {% for user in all_users %}
         <div class="post">

@@ -92,7 +92,6 @@ def all_users(request) -> render:
         form = UserSearchForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            print(data)
             current_user: QuerySet[User] = User.objects.filter(username__contains=data["search_field"])
             all_usr = current_user
     else:

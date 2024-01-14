@@ -1,3 +1,4 @@
+/* BASE SETTINGS */
 * {
     list-style-type: none;
     text-decoration: none;
@@ -5,13 +6,37 @@
     outline: none;
     margin: 0;
     padding: 0;
+    color: #fae4e4;
 }
 body {
     background-color: #1c1f26;
-    color: #fae4e4;
-
 }
 
+body > .container {
+    margin-top: 20px;
+}
+a {
+    text-decoration: none;
+    color: #a3c8ea;
+}
+
+.button {
+    padding: 10px 20px 10px 20px;
+    border: none;
+    outline: none;
+    margin-right: 20px;
+    border-radius: 15px;
+    background-color: #292d34;
+    color: #a3c8ea;
+}
+
+.button:hover {
+    background-color: #789ede;
+    color: #fff;
+    transition: .2s;
+}
+
+/* HEADER AND NAVIGATION */
 .header {
      background-color: #383b44;
 }
@@ -34,10 +59,7 @@ nav ul {
     height: 5rem;
 }
 
-body > .container {
-    margin-top: 20px;
-}
-
+/* MAIN CONTENT */
 .post {
     background-color: #292d34;
     padding: 20px;
@@ -45,7 +67,7 @@ body > .container {
     border-radius: 30px;
 }
 
-.dot {
+.dot { /* Switch page button */
     border-radius: 50%;
     height: 40px;
     width: 40px;
@@ -61,13 +83,13 @@ body > .container {
     transition: .2s;
 }
 
-.current {
+.current { /* Current page */
     background-color: #292d34;
     padding: 10px 25px 10px 20px;
     border-radius: 20px;
 }
 
-.message {
+.message {  /* Error/Success django-login message */
     width: 100%;
     background-color: #79787e;
     padding: 10px 30px 10px 30px;
@@ -75,39 +97,21 @@ body > .container {
     justify-content: space-between;
 }
 
+/* TAGS */
 span.tag {
-    color: #0c58ea;
+    color: #e7f0f6;
     background-color: #789ede;
     padding: 4px 15px 4px 15px;
     border-radius: 20px;
 }
 
-a {
-    text-decoration: none;
-    color: #a3c8ea;
-}
-
+/* SEARCH */
 .search > form {
     display: flex;
     justify-content: center;
 }
 
-.search_input {
-    padding: 0 20px 0 20px;
-    border: none;
-    outline: none;
-    margin-right: 20px;
-    border-radius: 15px;
-    background-color: #292d34;
-    color: #a3c8ea;
-}
-
-.search_input:hover {
-    background-color: #789ede;
-    color: #fff;
-    transition: .2s;
-}
-
+/* Search input */
 #id_search_query {
     border: none;
     padding: 10px 20px 10px 20px;
@@ -119,7 +123,29 @@ a {
     outline: none;
     color: #fff;
 }
-
 #id_search_query[placeholder] {
     color: #fff;
+}
+
+/* Forms styles for create_post and create_comments */
+p > textarea {
+    resize: none;
+    margin-top: 20px;
+}
+
+.create_post > p > textarea {
+    width: 90%;
+    height: 100px;
+}
+
+.form > p > input, textarea, select {
+    background-color: #383b44;
+    border-radius: 15px;
+    padding: 10px 20px 10px 20px;
+    color: #fff;
+}
+
+.create_comment > p > textarea {
+    width: 40%;
+    height: 200px;
 }

@@ -7,26 +7,30 @@
     <!-- SEARCH -->
     <div class="search">
         <form method="get">
-            <input type="submit" class="search_input" value="Поиск">
+            <input type="submit" class="button" value="Поиск">
             {{ form }}
         </form>
     </div>
 
     <!-- POSTS BLOCK -->
     {% if postss %}
+        {% if search_query %}
+            <h2>Посты</h2>
+            <hr/>
+        {% endif %}
         {% for post in postss %}
 
             <div class="post">
                 <a style="font-size: 30px" href="{{ post.get_absolute_url }}">
                     {{ post.title }}
                 </a>
-            <p>{{ post.text|linebreaks|truncatewords:40 }}</p>
+            <p>{{ post.text|linebreaks|truncatewords:20 }}</p>
 
             {% with post.tags.all as tags %}
                 {% if tags %}
                     <!-- POST TAGS -->
                     {% for tag in tags %}
-                        <a href="tag/{{ tag.slug }}" class="tag_a">
+                        <a href="tag/{{ tag.slug }}">
                             <span class="tag">#{{ tag }}</span>
                         </a>
                     {% endfor %}
@@ -42,12 +46,15 @@
 
     <!-- TAGS (SEARCH) -->
     {% if tags %}
+        {% if postss.number == postss.paginator.num_pages %}
         <h2>Теги</h2>
+        <hr />
         {% for tag in tags %}
                 <a style="font-size: 30px" href="{% url 'post_with_tag' tag.slug %}">
-                    {{ tag.name }}
+                    #{{ tag.name }}
                 </a>
         {% endfor %}
+            {% endif %}
     {% endif %}
     
 

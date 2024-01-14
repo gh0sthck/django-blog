@@ -15,26 +15,29 @@
         {% endfor %}
     {% endif %} 
     <p>{{ post.text }}</p>
-    <a href="{% url 'post_share' post_id=post.id %}">Поделиться</a>
 
-    <h2>Похожие</h2>
+
     {% if similar_posts %}
+        <h2>Возможно, вам понравится</h2>
+        <hr/>
         {% for similar_post in similar_posts %}
             <div><a href="{{ similar_post.get_absolute_url }}">{{ similar_post }}</a></div>
         {% endfor %}
-        
     {% endif %}
 
-    <h2>Комментарии</h2><br>
 
+    <h2>Оставить комментарий</h2>
+    <hr/>
     {% if current_user.is_authenticated %}
         <form method="post">
-            {{ form.as_p }}
-            {% csrf_token %}
-            <input type="submit">
+            <div class="create_comment">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input type="submit" class="button" value="Отправить">
+            </div>
         </form>
-        {% else %}
-    <p><a href="{% url 'logout_page' %}">Войдите</a>, чтобы оставлять комментарии</p>
+    {% else %}
+        <p><a href="{% url 'logout_page' %}">Войдите</a>, чтобы оставлять комментарии</p>
     {% endif %}
 
     <div class="comments">
@@ -42,7 +45,6 @@
                 <h4><a href="{% url 'user_page' user_id=comment.author.id %}">{{ comment.author }}</a></h4> {{ comment.created }}
                 <p>{{ comment.text }}</p>
         {% endfor %}
-
     </div>
 
 {% endblock main %}

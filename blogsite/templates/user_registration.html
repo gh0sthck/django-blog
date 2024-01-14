@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block main %}
-    <form method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-        <input type="submit" value="Зарегистрироваться">
+    <form method="post" class="form">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" class="button" value="Зарегистрироваться">
     </form>
 {% endblock %}
